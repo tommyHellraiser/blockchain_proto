@@ -16,19 +16,27 @@ CREATE TABLE blocks (
 DROP TABLE if EXISTS wallets;
 CREATE TABLE wallets (
 	ID INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	alias VARCHAR(30) NOT NULL,
-	public_key VARCHAR(100) NOT NULL,
+	alias VARCHAR(70) NOT NULL,
+	public_key VARCHAR(70) NOT NULL,
 	creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 	deletion_date DATETIME NULL
+);
+
+DROP TABLE if EXISTS wallets_keys;
+CREATE TABLE wallets_keys (
+	wallet_ID INT(10) NOT NULL,
+	private VARCHAR(70) NOT NULL,
+	public VARCHAR(70) NOT NULL,
+	CONSTRAINT wallets_keys_wallet_ID FOREIGN KEY (wallet_ID) REFERENCES wallets (ID)
 );
 
 DROP TABLE if EXISTS transactions;
 CREATE TABLE transactions (
 	ID INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	block_ID INT(10) NULL,
-	origin_wallet VARCHAR(100) NULL,
+	origin_wallet VARCHAR(70) NULL,
 	origin_wallet_ID INT(10) NULL,
-	destination_wallet VARCHAR(100) NOT NULL,
+	destination_wallet VARCHAR(70) NOT NULL,
 	destination_wallet_ID INT(10) NOT NULL,
 	amount DOUBLE NOT NULL,
 	creation_date DATETIME DEFAULT CURRENT_TIMESTAMP(),
