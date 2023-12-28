@@ -13,8 +13,8 @@ pub struct Environment {
 
 #[derive(Deserialize, Debug)]
 struct EnvironmentInner {
-    pub db_addr: String,
-    pub difficulty: u128
+    db_addr: String,
+    difficulty: u128
 }
 
 impl Environment {
@@ -31,9 +31,8 @@ impl Environment {
         &ENVIRONMENT
     }
 
-    pub async fn print_content(&self) {
-        let asd = self.inner.read().await;
-        dbg!(asd);
+    pub async fn get_db_addr(&self) -> String {
+        self.inner.read().await.db_addr.clone()
     }
 }
 

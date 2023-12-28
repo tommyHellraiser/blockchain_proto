@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use std::str::FromStr;
@@ -35,7 +37,7 @@ pub(in super::super) fn validate_message(
     message.hash(&mut hasher);
     let hashed = hasher.finish().to_string();
     let msg = hashed.as_bytes();
-    let signature = Signature::from_str(&message).map_err(|e| create_new_error!(e))?;
+    let signature = Signature::from_str(message).map_err(|e| create_new_error!(e))?;
     let message = Message::from_hashed_data::<sha256::Hash>(msg);
     //  Hashed message, signed message and public keys needed
     Ok(secp.verify_ecdsa(&message, &signature, &public).is_ok())
@@ -60,6 +62,6 @@ pub(in super::super) fn sign_message(
     //  Create the message object and the signature
     let message = Message::from_hashed_data::<sha256::Hash>(msg);
     let signature = secp.sign_ecdsa(&message, &secret);
-    
+
     Ok(signature.to_string())
 }
