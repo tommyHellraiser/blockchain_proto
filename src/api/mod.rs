@@ -8,6 +8,7 @@ use serde::Serialize;
 use the_logger::{log_error, log_info, TheLogger};
 use tokio::sync::broadcast::{Receiver, Sender};
 use crate::configurations::environment::Environment;
+use crate::modules;
 use crate::modules::balances;
 
 #[derive(Clone, Debug)]
@@ -38,6 +39,9 @@ pub async fn start_api(
                     )
                     .service(
                         web::scope("/balances").configure(balances::services)
+                    )
+                    .service(
+                        web::scope("/transactions").configure(modules::transactions::services)
                     )
             ).app_data(web::Data::new(AppData { sender: sender.clone() }))
         }).bind((api_base_addr, api_port)).map_err(|e| create_new_error!(e))?

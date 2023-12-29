@@ -16,8 +16,9 @@ struct EnvironmentInner {
     db_addr: String,
     api_base_addr: String,
     api_port: u16,
-    api_workers: usize
+    api_workers: usize,
     // difficulty: u128
+    reset_schema: bool
 }
 
 impl Environment {
@@ -44,6 +45,10 @@ impl Environment {
         let api_workers = self.inner.read().await.api_workers;
 
         (api_base_addr, api_port, api_workers)
+    }
+
+    pub async fn reset_schema(&self) -> bool {
+        self.inner.read().await.reset_schema
     }
 }
 
