@@ -6,10 +6,10 @@ DROP TABLE if EXISTS blocks;
 CREATE TABLE blocks (
 	ID INT(10) PRIMARY KEY AUTO_INCREMENT,
 	block_hash VARCHAR(70) NOT NULL,
-	previous_block_hash VARCHAR(70) NOT NULL,
+	previous_block_hash VARCHAR(70) NULL,
 	previous_block_ID INT(10) NULL,
-	merkle_root VARCHAR(70) NOT NULL,
-	transaction_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	merkle_root VARCHAR(70) NULL DEFAULT 'under_construction',
+	mine_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 	CONSTRAINT blocks_previous_block_ID FOREIGN KEY (previous_block_ID) REFERENCES blocks (ID)
 );
 
@@ -34,11 +34,13 @@ DROP TABLE if EXISTS transactions;
 CREATE TABLE transactions (
 	ID INT(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	block_ID INT(10) NULL,
+	status ENUM('Pending', 'Confirmed', 'Error', 'Unknown') DEFAULT 'Unknown',
 	origin_wallet VARCHAR(70) NULL,
 	origin_wallet_ID INT(10) NULL,
 	destination_wallet VARCHAR(70) NOT NULL,
 	destination_wallet_ID INT(10) NOT NULL,
 	amount DOUBLE NOT NULL,
+	hash VARCHAR(33) NOT NULL,
 	creation_date DATETIME DEFAULT CURRENT_TIMESTAMP(),
 	CONSTRAINT transactions_block_ID FOREIGN KEY (block_ID) REFERENCES blocks (ID),
 	CONSTRAINT transactions_destination_wallet_ID FOREIGN KEY (destination_wallet_ID) REFERENCES wallets (ID)
@@ -52,5 +54,4 @@ CREATE TABLE wallets_balances (
 	CONSTRAINT wallets_balances FOREIGN KEY (wallet_ID) REFERENCES wallets (ID)
 );
 
-INSERT INTO blocks (block_hash, previous_block_hash, merkle_root)
-VALUES('asd', 'qwe', 'zcasdc');
+

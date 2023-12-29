@@ -13,3 +13,6 @@ async fn balance_get() -> HttpResponse {
 
     HttpResponseBuilder::new(StatusCode::OK).json("Hola ke ase")
 }
+
+
+//  TODO add get balance service

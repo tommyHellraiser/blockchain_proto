@@ -1,7 +1,9 @@
+#INSERT INTO blocks (block_hash, previous_block_hash, merkle_root)
+#VALUES('asd', 'qwe', 'under_construction');
 
-UPDATE blocks
-SET previous_block_ID = 1
-WHERE ID = 1;
+#UPDATE blocks
+#SET previous_block_ID = 1
+#WHERE ID = 1;
 
 INSERT INTO wallets(alias, public_key)
 VALUES('tommy', '031f187a3e242b39bf7f51c7b2aedb3355595f9cea0b39065289284ff19f43c46d');
@@ -12,11 +14,11 @@ VALUES('hellraiser', '027296dca1fb1e3e03d20c695db0565c51eefb0e8b853a30b274d8464d
 INSERT INTO wallets_balances(wallet_ID, balance)
 VALUES(1, 100), (2, 100);
 
-INSERT INTO transactions(destination_wallet, destination_wallet_ID, amount)
-VALUES('031f187a3e242b39bf7f51c7b2aedb3355595f9cea0b39065289284ff19f43c46d', 1, 100);
+INSERT INTO transactions(STATUS, destination_wallet, destination_wallet_ID, amount, hash)
+VALUES('Pending', '031f187a3e242b39bf7f51c7b2aedb3355595f9cea0b39065289284ff19f43c46d', 1, 100, '7132aa26efeff9253133425df69c55649');
 
-INSERT INTO transactions(destination_wallet, destination_wallet_ID, amount)
-VALUES('027296dca1fb1e3e03d20c695db0565c51eefb0e8b853a30b274d8464d55ff6c29', 2, 100);
+INSERT INTO transactions(STATUS, destination_wallet, destination_wallet_ID, amount, hash)
+VALUES('Pending', '027296dca1fb1e3e03d20c695db0565c51eefb0e8b853a30b274d8464d55ff6c29', 2, 100, '006ea2e3c90be7f15195935929705e140');
 
 INSERT INTO wallets_keys(wallet_ID, private, public)
 VALUES

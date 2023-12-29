@@ -20,6 +20,9 @@ async fn main() {
             Err(e) => log_error!(logger, "Error resetting database schema: {}", e)
         };
     }
+    //  TODO add block mine cron
+    //   when block is mined, all transactions that are pending need to be saved into that block with the hash and stuff
+    //   
 
     let (sender, receiver) = tokio::sync::broadcast::channel::<StopMethod>(4);
 

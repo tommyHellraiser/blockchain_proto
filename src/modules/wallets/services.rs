@@ -27,3 +27,6 @@ async fn get_wallet(body: web::Json<GetWalletRequest>) -> HttpResponse {
         }
     }
 }
+
+
+//  TODO add create wallet service

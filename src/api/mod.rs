@@ -44,6 +44,9 @@ pub async fn start_api(
                         web::scope("/balances").configure(balances::services)
                     )
                     .service(
+                        web::scope("/blocks").configure(modules::blocks::services)
+                    )
+                    .service(
                         web::scope("/transactions").configure(modules::transactions::services)
                     )
                     .service(
