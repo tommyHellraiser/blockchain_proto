@@ -14,7 +14,10 @@ pub struct Environment {
 #[derive(Deserialize, Debug)]
 struct EnvironmentInner {
     db_addr: String,
-    difficulty: u128
+    api_base_addr: String,
+    api_port: u16,
+    api_workers: usize
+    // difficulty: u128
 }
 
 impl Environment {
@@ -33,6 +36,14 @@ impl Environment {
 
     pub async fn get_db_addr(&self) -> String {
         self.inner.read().await.db_addr.clone()
+    }
+
+    pub async fn get_api_config(&self) -> (String, u16, usize) {
+        let api_base_addr = self.inner.read().await.api_base_addr.clone();
+        let api_port = self.inner.read().await.api_port;
+        let api_workers = self.inner.read().await.api_workers;
+
+        (api_base_addr, api_port, api_workers)
     }
 }
 

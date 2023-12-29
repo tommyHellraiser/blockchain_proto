@@ -6,10 +6,18 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-mysql_async = "0.33.0"
-serde_json = "1.0.108"
-error_mapper = { version = "0.3.8", features = ["mysql_async", "serde_json"]}
-tokio = { version = "1.35.1", features = ["macros"] }
-secp256k1 = { version = "0.28.0", features = ["rand", "global-context", "hashes"] }
+
+# External crates
+actix-web = "4.4.1"
+chrono = "0.4.31"
 lazy_static = "1.4.0"
+mysql_async = "0.33.0"
+secp256k1 = { version = "0.28.0", features = ["rand", "global-context", "hashes"] }
 serde = { version = "1.0.193", features = ["derive"] }
+serde_json = "1.0.108"
+tokio = { version = "1.35.1", features = ["macros"] }
+
+# My crates
+error_mapper = { version = "0.3.9", features = ["mysql_async", "serde_json"]}
+#error_mapper = { path = "../error_mapper" }
+the_logger = { version = "0.5.3" }
