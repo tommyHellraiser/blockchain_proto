@@ -1,6 +1,7 @@
 pub type WalletIdType = u16;
 pub type AliasType = String;
 pub type KeyType = String;
+pub type BlockIdType = u64;
 
 #[macro_export]
 macro_rules! data_from_row {

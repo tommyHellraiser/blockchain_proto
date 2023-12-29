@@ -29,26 +29,26 @@ impl Wallet {
 
     pub(in super::super) async fn select_by_key(conn: &mut Conn, key: &str) -> TheResult<Option<Self>> {
 
-            let stmt = format!(
-                "SELECT ID, alias, public_key FROM wallets WHERE public_key = '{}'",
-                key
-            );
+        let stmt = format!(
+            "SELECT ID, alias, public_key FROM wallets WHERE public_key = '{}'",
+            key
+        );
 
-            let wallet = conn.query_first::<Self, _>(
-                stmt
-            ).await.map_err(|e| create_new_error!(e))?;
+        let wallet = conn.query_first::<Self, _>(
+            stmt
+        ).await.map_err(|e| create_new_error!(e))?;
 
-            Ok(wallet)
+        Ok(wallet)
     }
-    pub fn get_id(&self) -> u16 {
+    pub fn get_id(&self) -> WalletIdType {
         self.id
     }
 
-    pub fn get_alias(&self) -> String {
+    pub fn get_alias(&self) -> AliasType {
         self.alias.clone()
     }
 
-    pub fn get_public_key(&self) -> String {
+    pub fn get_public_key(&self) -> KeyType {
         self.public_key.clone()
     }
 }

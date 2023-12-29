@@ -5,14 +5,14 @@ use the_logger::{log_error, log_info, TheLogger};
 use crate::modules::transactions::data;
 
 #[derive(Deserialize)]
-pub(super) struct NewTransaction {
+pub(super) struct NewTransactionRequest {
     pub(super) origin: Option<String>,
     pub(super) destination: String,
     pub(super) amount: Decimal
 }
 
 #[post("/new_transaction")]
-pub(super) async fn post_transaction(body: web::Json<NewTransaction>) -> HttpResponse {
+pub(super) async fn post_transaction(body: web::Json<NewTransactionRequest>) -> HttpResponse {
 
     let logger = TheLogger::instance();
 
