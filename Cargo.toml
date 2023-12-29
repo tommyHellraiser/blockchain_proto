@@ -22,3 +22,4 @@ tokio = { version = "1.35.1", features = ["macros"] }
 error_mapper = { version = "0.3.9", features = ["mysql_async", "serde_json"]}
 #error_mapper = { path = "../error_mapper" }
 the_logger = { version = "0.5.3" }
+futures-util = "0.3.30"

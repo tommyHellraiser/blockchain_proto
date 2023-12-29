@@ -1,10 +1,23 @@
+mod services;
+
+use actix_web::web::ServiceConfig;
 use error_mapper::{create_new_error, TheResult};
 use mysql_async::prelude::{FromRow, Queryable};
 use mysql_async::{Conn, FromRowError, Row};
+use serde::{Deserialize, Serialize};
 use crate::utilities::{AliasType, KeyType, WalletIdType};
 use crate::data_from_row;
 
-#[derive(Clone, Debug)]
+pub(in super::super) fn services(cfg: &mut ServiceConfig) {
+    cfg.service(services::get_wallet);
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+struct GetWalletRequest {
+    alias: AliasType
+}
+
+#[derive(Clone, Debug, Serialize)]
 pub(in super::super) struct Wallet {
     id: WalletIdType,
     alias: AliasType,
@@ -40,6 +53,19 @@ impl Wallet {
 
         Ok(wallet)
     }
+
+    pub(super) async fn select_by_alias(conn: &mut Conn, alias: &str) -> TheResult<Option<Self>> {
+
+        let stmt = format!(
+            "SELECT ID, alias, public_key FROM wallets WHERE alias = '{}'",
+            alias
+        );
+
+        let wallet = conn.query_first::<Self, _>(stmt).await.map_err(|e| create_new_error!(e))?;
+
+        Ok(wallet)
+    }
+
     pub fn get_id(&self) -> WalletIdType {
         self.id
     }

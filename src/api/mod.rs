@@ -1,4 +1,5 @@
 mod services;
+mod logger_middleware;
 
 use actix_web::{App, HttpResponse, HttpServer, web};
 use actix_web::dev::{ServerHandle};
@@ -7,6 +8,7 @@ use error_mapper::{create_new_error, TheResult};
 use serde::Serialize;
 use the_logger::{log_error, log_info, TheLogger};
 use tokio::sync::broadcast::{Receiver, Sender};
+use crate::api::logger_middleware::ApiLogger;
 use crate::configurations::environment::Environment;
 use crate::modules;
 use crate::modules::balances;
@@ -32,7 +34,8 @@ pub async fn start_api(
 
     let server = HttpServer::new(move ||
         {
-            App::new().service(
+            App::new().wrap(ApiLogger)
+                .service(
                 web::scope("/api")
                     .service(
                         web::scope("/services").configure(services::services)
@@ -43,7 +46,11 @@ pub async fn start_api(
                     .service(
                         web::scope("/transactions").configure(modules::transactions::services)
                     )
-            ).app_data(web::Data::new(AppData { sender: sender.clone() }))
+                    .service(
+                        web::scope("/wallets").configure(modules::wallets::services)
+                    )
+            )
+                .app_data(web::Data::new(AppData { sender: sender.clone() }))
         }).bind((api_base_addr, api_port)).map_err(|e| create_new_error!(e))?
         .workers(api_workers)
         .run();

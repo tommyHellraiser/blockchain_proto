@@ -1,7 +1,4 @@
 use error_mapper::{create_new_error, TheResult};
-use mysql_async::Conn;
-use mysql_async::prelude::Queryable;
-use rust_decimal::Decimal;
 use crate::configurations::data::Data;
 use crate::modules::transactions::services::NewTransactionRequest;
 use crate::modules::transactions::Transaction;
